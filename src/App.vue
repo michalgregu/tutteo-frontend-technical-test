@@ -10,7 +10,7 @@
   </v-app>
 </template>
 
-<style module>
+<style lang="scss" module>
 .audioPlayer {
   border: 1px solid #ccc;
   border-radius: 8px;
