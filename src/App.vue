@@ -1,14 +1,24 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import AudioPlayer from './components/AudioPlayer/AudioPlayer.vue'
 import Playlist from './components/Playlist/Playlist.vue'
 import CurrentTrackInfo from './components/Playlist/CurrentTrackInfo.vue'
 import { tracks, Track } from './tracks'
 
-const currentTrack = ref<Track | null>(tracks[0])
+const currentTrackIndex = ref<number>(0)
+const currentTrack = computed(() => tracks[currentTrackIndex.value] || null)
 
 const handleSelectTrack = (track: Track) => {
-  currentTrack.value = track
+  const index = tracks.findIndex((t) => t.id === track.id)
+  if (index !== -1) {
+    currentTrackIndex.value = index
+  }
+}
+
+const playNextTrack = () => {
+  if (currentTrackIndex.value < tracks.length - 1) {
+    currentTrackIndex.value++
+  }
 }
 </script>
 
@@ -19,7 +29,7 @@ const handleSelectTrack = (track: Track) => {
         <v-row>
           <v-col cols="12" md="8">
             <CurrentTrackInfo :track="currentTrack" />
-            <AudioPlayer :track="currentTrack" />
+            <AudioPlayer :track="currentTrack" @trackEnded="playNextTrack" />
           </v-col>
           <v-col cols="12" md="4">
             <Playlist

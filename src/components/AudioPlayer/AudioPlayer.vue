@@ -11,6 +11,10 @@ const props = defineProps<{
   track: Track | null
 }>()
 
+const emit = defineEmits<{
+  (e: 'trackEnded'): void
+}>()
+
 const { audioContext, initAudioContext } = useAudioContext()
 
 const audioSource = ref<AudioBufferSourceNode | null>(null)
@@ -81,9 +85,10 @@ const play = async (startOffset: number = offset.value): Promise<void> => {
   updateCurrentTime()
 
   audioSource.value.onended = () => {
-    if (isPlaying.value) {
+    if (currentTime.value >= duration.value - 0.1) {
       isPlaying.value = false
       resetState()
+      emit('trackEnded')
     }
   }
 }
@@ -133,9 +138,7 @@ const seek = (time: number) => {
   currentTime.value = time
 
   if (wasPlaying) {
-    setTimeout(() => {
-      play(time)
-    }, 100)
+    play(time)
   }
 }
 
