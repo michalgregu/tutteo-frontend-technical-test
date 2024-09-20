@@ -1,10 +1,15 @@
 <script setup lang="ts">
-import { ref, onMounted, watchEffect } from 'vue'
+import { ref, onMounted, watchEffect, watch } from 'vue'
 import { useAudioContext } from '../../composables/useAudioContext'
-import { tracks, Track } from '../../tracks'
+import { Track } from '../../tracks'
+
 import PlaybackControls from './PlaybackControls.vue'
 import ProgressBar from './ProgressBar.vue'
 import VolumeControl from './VolumeControl.vue'
+
+const props = defineProps<{
+  track: Track | null
+}>()
 
 const { audioContext, initAudioContext } = useAudioContext()
 
@@ -12,7 +17,6 @@ const audioSource = ref<AudioBufferSourceNode | null>(null)
 const audioBuffer = ref<AudioBuffer | null>(null)
 const gainNode = ref<GainNode | null>(null)
 
-const currentTrack = ref<Track>(tracks[0])
 const duration = ref<number>(0)
 const isPlaying = ref<boolean>(false)
 const startTime = ref<number>(0)
@@ -21,11 +25,18 @@ const pausedAt = ref<number>(0)
 const offset = ref<number>(0)
 const volume = ref<number>(1)
 
-const loadAudio = async (): Promise<void> => {
+const resetState = () => {
+  pausedAt.value = 0
+  startTime.value = 0
+  offset.value = 0
+  currentTime.value = 0
+}
+
+const loadTrack = async (track: Track) => {
   if (!audioContext.value) return
 
   try {
-    const response = await fetch(currentTrack.value.audioSrc)
+    const response = await fetch(track.audioSrc)
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`)
     }
@@ -34,6 +45,12 @@ const loadAudio = async (): Promise<void> => {
     const decodedBuffer = await audioContext.value.decodeAudioData(arrayBuffer)
 
     audioBuffer.value = decodedBuffer
+    currentTime.value = 0
+    duration.value = decodedBuffer.duration
+
+    if (isPlaying.value) {
+      await play()
+    }
   } catch (error) {
     console.error('Error loading audio:', error)
   }
@@ -65,8 +82,8 @@ const play = async (startOffset: number = offset.value): Promise<void> => {
 
   audioSource.value.onended = () => {
     if (isPlaying.value) {
-      offset.value = 0
-      pausedAt.value = 0
+      isPlaying.value = false
+      resetState()
     }
   }
 }
@@ -91,10 +108,8 @@ const stop = (): void => {
     audioSource.value.disconnect()
   }
   isPlaying.value = false
-  pausedAt.value = 0
-  startTime.value = 0
-  offset.value = 0
-  currentTime.value = 0
+
+  resetState()
 }
 
 const updateCurrentTime = () => {
@@ -136,8 +151,25 @@ const handleVolumeChange = (newVolume: number) => {
 
 onMounted(async () => {
   initAudioContext()
-  await loadAudio()
+  if (props.track) {
+    await loadTrack(props.track)
+  }
 })
+
+watch(
+  () => props.track,
+  async (newTrack) => {
+    if (newTrack) {
+      if (isPlaying.value) {
+        pause()
+      }
+      resetState()
+      await loadTrack(newTrack)
+      play()
+    }
+  },
+  { immediate: true }
+)
 
 watchEffect(() => {
   if (audioBuffer.value) {
@@ -147,7 +179,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div>
+  <div v-if="track">
     <PlaybackControls
       :isPlaying="isPlaying"
       @togglePlay="togglePlay"
