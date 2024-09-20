@@ -1,18 +1,17 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import AudioPlayer from './components/AudioPlayer.vue'
+</script>
 
 <template>
   <v-app>
-    <div :class="$style.audioPlayer">
-      Hello
-      <v-btn> Vuetify works </v-btn>
+    <div :class="$style.app">
+      <AudioPlayer />
     </div>
-    <HelloWorld msg="Vite + Vue" />
   </v-app>
 </template>
 
 <style lang="scss" module>
-.audioPlayer {
-  border: 1px solid #ccc;
+.app {
   border-radius: 8px;
   padding: 20px;
 }
