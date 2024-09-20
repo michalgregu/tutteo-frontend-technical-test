@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AudioPlayer from './components/AudioPlayer.vue'
+import AudioPlayer from './components/AudioPlayer/AudioPlayer.vue'
 </script>
 
 <template>
