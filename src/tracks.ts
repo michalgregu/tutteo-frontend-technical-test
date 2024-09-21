@@ -3,8 +3,9 @@ export interface Track {
   title: string
   artist: string
   audioSrc: string
-  attribution_text_1: string
-  attribution_text_2: string
+  img: string
+  music_source: string
+  license_code: string
 }
 
 export const tracks: Track[] = [
@@ -13,39 +14,44 @@ export const tracks: Track[] = [
     title: 'Hope',
     artist: 'Hugo Dujardin',
     audioSrc: '/src/assets/audio/hope.mp3',
-    attribution_text_1: 'Royalty Free Music: Bensound.com',
-    attribution_text_2: 'License Code: FIR7IQJG0ONJSZHR',
+    img: '/src/assets/img/pic_5.jpg',
+    music_source: 'Bensound.com',
+    license_code: 'FIR7IQJG0ONJSZHR',
   },
   {
     id: 2,
     title: 'Funky suspense',
     artist: 'Benjamin Tissot',
     audioSrc: '/src/assets/audio/funkysuspense.mp3',
-    attribution_text_1: 'Royalty Free Music: Bensound.com',
-    attribution_text_2: 'License Code: B4CIKJB2BUBRXT4E',
+    img: '/src/assets/img/pic_3.jpg',
+    music_source: 'Bensound.com',
+    license_code: 'B4CIKJB2BUBRXT4E',
   },
   {
     id: 3,
     title: 'Echo of sadness',
     artist: 'TURNIQUE',
     audioSrc: '/src/assets/audio/echoofsadness.mp3',
-    attribution_text_1: 'Royalty Free Music: Bensound.com',
-    attribution_text_2: 'License Code: DTNK0XMEMCCBTQNK',
+    img: '/src/assets/img/pic_1.jpg',
+    music_source: 'Bensound.com',
+    license_code: 'DTNK0XMEMCCBTQNK',
   },
   {
     id: 4,
     title: 'Sway',
     artist: 'Yunior Arronte',
     audioSrc: '/src/assets/audio/sway.mp3',
-    attribution_text_1: 'Royalty Free Music: Bensound.com',
-    attribution_text_2: 'License Code: XQWNS8KRA2QAHMUA',
+    img: '/src/assets/img/pic_4.png',
+    music_source: 'Bensound.com',
+    license_code: 'XQWNS8KRA2QAHMUA',
   },
   {
     id: 5,
     title: 'As your world grows smaller',
     artist: 'Diffie Bosman',
     audioSrc: '/src/assets/audio/asyourworldgrowssmaller.mp3',
-    attribution_text_1: 'Royalty Free Music: Bensound.com',
-    attribution_text_2: 'License Code: MBDDX6SUQTLZMRLG',
+    img: '/src/assets/img/pic_2.jpg',
+    music_source: 'Bensound.com',
+    license_code: 'MBDDX6SUQTLZMRLG',
   },
 ]

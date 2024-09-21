@@ -1,4 +1,9 @@
-$background-color: #c4c4c4;
-$text-color: #fcfcff;
-$secondary-color: #2d2e37;
-$accent-color: #3c3abe;
+$background-color-light: #fcfcff;
+$background-color-dark: #2d2e37;
+
+$text-primary: #000000;
+$text-secondary: #7e7e7e;
+
+$primary-color: #3f51b5;
+$primary-light: lighten($primary-color, 10%);    
+$accent-color: #a86464;  

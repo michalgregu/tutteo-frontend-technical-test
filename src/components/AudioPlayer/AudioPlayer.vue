@@ -6,6 +6,7 @@ import { Track } from '../../tracks'
 import PlaybackControls from './PlaybackControls.vue'
 import ProgressBar from './ProgressBar.vue'
 import VolumeControl from './VolumeControl.vue'
+import CurrentTrackInfo from '../CurrentTrackInfo.vue'
 
 const props = defineProps<{
   track: Track | null
@@ -182,15 +183,86 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div v-if="track">
-    <PlaybackControls
-      :isPlaying="isPlaying"
-      @togglePlay="togglePlay"
-      @stop="stop"
+  <div v-if="track" :class="$style.audioPlayer">
+    <div :class="$style.controlsAndThumbnail">
+      <PlaybackControls
+        :isPlaying="isPlaying"
+        @togglePlay="togglePlay"
+        @stop="stop"
+      />
+      <img :src="track.img" :class="$style.thumbnail" alt="Track thumbnail" />
+    </div>
+    <CurrentTrackInfo :track="track" :class="$style.trackInfo" />
+    <ProgressBar
+      :currentTime="currentTime"
+      :duration="duration"
+      @seek="seek"
+      :class="$style.progressBar"
     />
-    <ProgressBar :currentTime="currentTime" :duration="duration" @seek="seek" />
-    <VolumeControl :initialVolume="volume" @volumeChange="handleVolumeChange" />
+    <VolumeControl
+      :initialVolume="volume"
+      @volumeChange="handleVolumeChange"
+      :class="$style.volumeControl"
+    />
   </div>
 </template>
 
-<style lang="scss" module></style>
+<style lang="scss" module>
+.audioPlayer {
+  width: 100%;
+  max-width: 100%;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.controlsAndThumbnail {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  margin-right: 1rem;
+}
+
+.thumbnail {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  margin-left: 0.5rem;
+}
+
+.trackInfo {
+  flex: 0 1 auto;
+  margin-right: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.progressBar {
+  flex: 3;
+  margin-right: 1rem;
+}
+
+.volumeControl {
+  flex: 0 0 auto;
+}
+
+@media (max-width: 768px) {
+  .audioPlayer {
+    flex-wrap: wrap;
+  }
+
+  .progressBar {
+    flex: 1 0 100%;
+    order: 4;
+    margin-top: 1rem;
+  }
+
+  .volumeControl {
+    order: 3;
+  }
+}
+</style>

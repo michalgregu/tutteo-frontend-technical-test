@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue'
 import AudioPlayer from './components/AudioPlayer/AudioPlayer.vue'
 import Playlist from './components/Playlist/Playlist.vue'
-import CurrentTrackInfo from './components/Playlist/CurrentTrackInfo.vue'
+import Thumbnail from './components/Thumbnail.vue'
 import { tracks, Track } from './tracks'
 
 const currentTrackIndex = ref<number>(0)
@@ -24,29 +24,42 @@ const playNextTrack = () => {
 
 <template>
   <v-app>
-    <v-main>
-      <v-container>
-        <v-row>
-          <v-col cols="12" md="8">
-            <CurrentTrackInfo :track="currentTrack" />
-            <AudioPlayer :track="currentTrack" @trackEnded="playNextTrack" />
-          </v-col>
-          <v-col cols="12" md="4">
-            <Playlist
-              :tracks="tracks"
-              :currentTrack="currentTrack"
-              @selectTrack="handleSelectTrack"
-            />
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-main>
+    <div :class="$style.appContainer">
+      <div :class="$style.thumbnailContainer">
+        <Thumbnail :track="currentTrack" />
+      </div>
+      <v-card :class="$style.playlistCard">
+        <Playlist
+          :tracks="tracks"
+          :currentTrack="currentTrack"
+          @selectTrack="handleSelectTrack"
+        />
+      </v-card>
+      <v-card :class="$style.playerCard">
+        <AudioPlayer :track="currentTrack" @trackEnded="playNextTrack" />
+      </v-card>
+    </div>
   </v-app>
 </template>
 
 <style lang="scss" module>
-.app {
-  border-radius: 8px;
-  padding: 20px;
+@import './styles/_variables.scss';
+
+.appContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.thumbnailContainer {
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.playlistCard,
+.playerCard {
+  margin-bottom: 16px;
+  background-color: $background-color-light;
 }
 </style>
