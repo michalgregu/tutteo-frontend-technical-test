@@ -5,5 +5,5 @@ $text-primary: #000000;
 $text-secondary: #7e7e7e;
 
 $primary-color: #3f51b5;
-$primary-light: lighten($primary-color, 10%);    
-$accent-color: #a86464;  
+$primary-light: adjust-color($primary-color, $lightness: 10%);
+$accent-color: #a86464;

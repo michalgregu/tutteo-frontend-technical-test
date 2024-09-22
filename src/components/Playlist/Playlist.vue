@@ -13,9 +13,9 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <v-card>
-    <v-card-title>Playlist</v-card-title>
-    <v-card-text>
+  <v-card :class="$style.playlist">
+    <v-card-title :class="$style.playlistTitle">Playlist</v-card-title>
+    <v-card-text :class="$style.playlistContent">
       <TrackList
         :tracks="props.tracks"
         :currentTrack="currentTrack"
@@ -24,3 +24,32 @@ const emit = defineEmits<{
     </v-card-text>
   </v-card>
 </template>
+
+<style lang="scss" module>
+@import '../../styles/variables';
+
+.playlist {
+  height: 100%;
+  background-color: $background-color-light;
+  border-radius: 8px;
+}
+
+.playlistTitle {
+  font-size: 1.8rem !important;
+  font-weight: bold;
+  background-color: rgba(255, 255, 255, 0.05);
+  padding-top: 0.8rem !important;
+}
+
+.playlistContent {
+  padding: 0 0.8rem !important;
+}
+
+@media (max-width: 599px) {
+  .playlistTitle {
+    text-align: center;
+
+    font-size: 1rem !important;
+  }
+}
+</style>

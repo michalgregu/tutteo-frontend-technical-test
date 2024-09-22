@@ -147,7 +147,7 @@ const handleVolumeChange = (newVolume: number) => {
   volume.value = newVolume
   if (gainNode.value) {
     gainNode.value.gain.setValueAtTime(
-      newVolume,
+      Number(newVolume),
       audioContext.value!.currentTime
     )
   }
@@ -184,13 +184,12 @@ watchEffect(() => {
 
 <template>
   <div v-if="track" :class="$style.audioPlayer">
-    <div :class="$style.controlsAndThumbnail">
+    <div :class="$style.controls">
       <PlaybackControls
         :isPlaying="isPlaying"
         @togglePlay="togglePlay"
         @stop="stop"
       />
-      <img :src="track.img" :class="$style.thumbnail" alt="Track thumbnail" />
     </div>
     <CurrentTrackInfo :track="track" :class="$style.trackInfo" />
     <ProgressBar
@@ -208,29 +207,21 @@ watchEffect(() => {
 </template>
 
 <style lang="scss" module>
+@import '../../styles/_variables.scss';
+
 .audioPlayer {
-  width: 100%;
-  max-width: 100%;
+  width: 80%;
   padding: 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.controlsAndThumbnail {
-  display: flex;
-  align-items: center;
-  flex: 0 0 auto;
-  margin-right: 1rem;
-}
-
-.thumbnail {
-  width: 40px;
-  height: 40px;
   border-radius: 4px;
-  margin-left: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: $background-color-light;
+}
+
+.controls {
+  margin-right: 1rem;
 }
 
 .trackInfo {
@@ -246,23 +237,34 @@ watchEffect(() => {
   margin-right: 1rem;
 }
 
-.volumeControl {
-  flex: 0 0 auto;
-}
-
-@media (max-width: 768px) {
+@media (max-width: 599px) {
   .audioPlayer {
+    width: 100%;
     flex-wrap: wrap;
   }
 
+  .controls {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+
+  .trackInfo {
+    display: none;
+  }
+
   .progressBar {
-    flex: 1 0 100%;
-    order: 4;
-    margin-top: 1rem;
+    order: 2;
   }
 
   .volumeControl {
-    order: 3;
+    display: none;
+  }
+}
+
+@media (max-width: 800px) {
+  .trackInfo {
+    display: none;
   }
 }
 </style>

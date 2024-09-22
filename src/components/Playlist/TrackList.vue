@@ -23,3 +23,11 @@ const emit = defineEmits<{
     />
   </v-list>
 </template>
+
+<style lang="scss" module>
+@import '../../styles/variables';
+
+.v-list-item--active {
+  background-color: $accent-color;
+}
+</style>

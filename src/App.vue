@@ -23,43 +23,70 @@ const playNextTrack = () => {
 </script>
 
 <template>
-  <v-app>
-    <div :class="$style.appContainer">
-      <div :class="$style.thumbnailContainer">
-        <Thumbnail :track="currentTrack" />
-      </div>
-      <v-card :class="$style.playlistCard">
-        <Playlist
-          :tracks="tracks"
-          :currentTrack="currentTrack"
-          @selectTrack="handleSelectTrack"
-        />
-      </v-card>
-      <v-card :class="$style.playerCard">
-        <AudioPlayer :track="currentTrack" @trackEnded="playNextTrack" />
-      </v-card>
-    </div>
+  <v-app :class="$style.app">
+    <v-main :class="$style.main">
+      <v-container :class="$style.appContainer" fluid>
+        <v-row :class="$style.mainContent">
+          <v-col cols="12" sm="8" :class="$style.playlistContainer">
+            <Playlist
+              :tracks="tracks"
+              :currentTrack="currentTrack"
+              @selectTrack="handleSelectTrack"
+            />
+          </v-col>
+          <v-col cols="12" sm="4" :class="$style.thumbnailContainer">
+            <Thumbnail :track="currentTrack" />
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-main>
+    <v-footer app :class="$style.playerContainer">
+      <AudioPlayer :track="currentTrack" @trackEnded="playNextTrack" />
+    </v-footer>
   </v-app>
 </template>
 
 <style lang="scss" module>
-@import './styles/_variables.scss';
+@import './styles/variables';
 
-.appContainer {
+.app {
+  background-color: $background-color-dark;
+  color: $text-primary;
   display: flex;
   flex-direction: column;
-  height: 100%;
 }
 
-.thumbnailContainer {
-  width: 100%;
-  max-width: 300px;
+.main {
+  flex: 1;
+  display: flex;
+}
+
+.appContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  max-width: 80.5% !important;
   margin: 0 auto;
+  padding: 16px;
 }
 
-.playlistCard,
-.playerCard {
-  margin-bottom: 16px;
-  background-color: $background-color-light;
+.playerContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: $background-color-dark !important;
+}
+
+@media (max-width: 600px) {
+  
+  .appContainer {
+    max-width: 100% !important;
+    padding: 0;
+  }
+
+  .thumbnailContainer {
+    order: -1;
+  }
 }
 </style>

@@ -16,6 +16,8 @@ import {
   faVolumeHigh,
   faVolumeLow,
   faVolumeXmark,
+  faBackwardStep,
+  faForwardStep,
 } from '@fortawesome/free-solid-svg-icons'
 
 const vuetify = createVuetify({
@@ -23,7 +25,16 @@ const vuetify = createVuetify({
   directives,
 })
 
-library.add(faPlay, faPause, faStop, faVolumeHigh, faVolumeLow, faVolumeXmark)
+library.add(
+  faPlay,
+  faPause,
+  faStop,
+  faVolumeHigh,
+  faVolumeLow,
+  faVolumeXmark,
+  faBackwardStep,
+  faForwardStep
+)
 
 const app = createApp(App)
 

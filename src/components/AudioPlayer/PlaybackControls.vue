@@ -1,22 +1,45 @@
 <script setup lang="ts">
-defineProps<{
+import { computed } from 'vue'
+
+const props = defineProps<{
   isPlaying: boolean
 }>()
 
-defineEmits<{
+const emit = defineEmits<{
   (e: 'togglePlay'): void
   (e: 'stop'): void
 }>()
+
+const playIcon = computed(() => (props.isPlaying ? 'fa-pause' : 'fa-play'))
 </script>
 
 <template>
   <div :class="$style.controls">
-    <button @click="$emit('togglePlay')" :class="$style.button">
-      <font-awesome-icon :icon="isPlaying ? 'pause' : 'play'" />
-    </button>
-    <button @click="$emit('stop')" :class="$style.button">
-      <font-awesome-icon icon="stop" />
-    </button>
+    <v-btn icon color="primary" flat size="x-small" :ripple="false">
+      <font-awesome-icon icon="backward-step" :class="$style.icon" />
+    </v-btn>
+    <v-btn
+      icon
+      color="primary"
+      flat
+      :ripple="false"
+      @click="emit('togglePlay')"
+    >
+      <font-awesome-icon :icon="playIcon" :class="$style.icon" />
+    </v-btn>
+    <v-btn icon color="primary" flat size="x-small" :ripple="false">
+      <font-awesome-icon icon="forward-step" :class="$style.icon" />
+    </v-btn>
+    <v-btn
+      icon
+      size="x-small"
+      color="primary"
+      flat
+      :ripple="false"
+      @click="emit('stop')"
+    >
+      <font-awesome-icon icon="stop" :class="$style.icon" />
+    </v-btn>
   </div>
 </template>
 
@@ -26,30 +49,8 @@ defineEmits<{
 .controls {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 1rem;
   margin: 1rem 0;
-}
-
-.button {
-  background-color: $primary-color;
-  border: none;
-  color: white;
-  padding: 15px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.button:hover {
-  background-color: $primary-light;
 }
 </style>

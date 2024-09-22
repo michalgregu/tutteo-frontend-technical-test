@@ -14,31 +14,8 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-::-webkit-scrollbar {
-  display: none;
-}
-
-body {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 1rem;
-  box-sizing: border-box;
-  min-height: 100vh;
-}
-
-#app {
-  width: 100%;
-  max-width: 700px;
-  min-width: 300px;
 }
 
 .v-application__wrap {
-  min-height: unset !important;
   background-color: $background-color-dark;
 }

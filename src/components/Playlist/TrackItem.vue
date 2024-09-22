@@ -9,14 +9,64 @@ defineProps<{
 const emit = defineEmits<{
   (e: 'select', track: Track): void
 }>()
+
+const padZero = (number: number) => {
+  return number < 10 ? `0${number}` : number
+}
 </script>
 
 <template>
   <v-list-item
-    :class="{ 'bg-primary': isActive }"
+    :ripple="false"
+    :class="['rounded-lg', 'mb-2', { [$style.activeItem]: isActive }]"
     @click="emit('select', track)"
   >
-    <v-list-item-title>{{ track.title }}</v-list-item-title>
-    <v-list-item-subtitle>{{ track.artist }}</v-list-item-subtitle>
+    <template v-slot:prepend>
+      <div :class="$style.trackId">{{ padZero(track.id) }}</div>
+      <img :src="track.img" :class="$style.thumbnail" alt="Track thumbnail" />
+    </template>
+
+    <!-- <template v-slot:append>
+      <div :class="$style.trackId">Time</div>
+    </template> -->
+
+    <v-list-item-title :class="$style.trackTitle">{{
+      track.title
+    }}</v-list-item-title>
+    <v-list-item-subtitle :class="$style.trackArtist">{{
+      track.artist
+    }}</v-list-item-subtitle>
   </v-list-item>
 </template>
+
+<style lang="scss" module>
+@import '../../styles/variables';
+
+.activeItem {
+  background-color: $primary-light !important;
+  color: $background-color-light !important;
+  border-radius: 4px !important;
+}
+
+.trackId {
+  margin-right: 1rem;
+}
+
+.thumbnail {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  margin-right: 1rem;
+}
+
+@media (max-width: 599px) {
+  .thumbnail {
+    display: none;
+  }
+
+  .trackTitle,
+  .trackArtist {
+    font-size: .8rem !important;
+  }
+}
+</style>

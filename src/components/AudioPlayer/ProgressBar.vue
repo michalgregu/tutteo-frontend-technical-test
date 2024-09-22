@@ -63,9 +63,11 @@ const handleSeek = (event: Event) => {
   flex: 1;
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
 .slider {
+  appearance: none;
   -webkit-appearance: none;
   width: 100%;
   height: 5px;
@@ -73,6 +75,7 @@ const handleSeek = (event: Event) => {
   background: #d3d3d3;
   outline: none;
   transition: opacity 0.2s;
+  cursor: pointer;
 }
 
 .slider::-webkit-slider-thumb {
@@ -91,22 +94,5 @@ const handleSeek = (event: Event) => {
   border-radius: 50%;
   background: $primary-color;
   cursor: pointer;
-}
-
-@media (max-width: 480px) {
-  .progressBar {
-    flex-wrap: wrap;
-  }
-
-  .sliderWrapper {
-    order: -1;
-    flex-basis: 100%;
-    margin-bottom: 5px;
-  }
-
-  .timeDisplay {
-    flex: 1;
-    text-align: center;
-  }
 }
 </style>
