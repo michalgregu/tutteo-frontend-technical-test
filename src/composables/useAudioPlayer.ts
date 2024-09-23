@@ -3,7 +3,9 @@ import { tracks as initialTracks, Track } from '../tracks'
 
 const tracks = ref<Track[]>(initialTracks)
 const currentTrackIndex = ref<number>(0)
-const currentTrack = computed(() => tracks.value[currentTrackIndex.value] || null)
+const currentTrack = computed(
+  () => tracks.value[currentTrackIndex.value] || null
+)
 
 const audioContext = ref<AudioContext | null>(null)
 const audioSource = ref<AudioBufferSourceNode | null>(null)
@@ -23,10 +25,14 @@ const preloadedBuffers = new Map<string, AudioBuffer>()
 export function useAudioPlayer() {
   const ensureAudioContext = () => {
     if (!audioContext.value) {
-      audioContext.value = new (window.AudioContext || (window as any).webkitAudioContext)()
+      audioContext.value = new (window.AudioContext ||
+        (window as any).webkitAudioContext)()
     }
     if (audioContext.value?.state === 'suspended') {
       audioContext.value.resume()
+    }
+    if (!audioContext.value) {
+      throw new Error('Failed to create AudioContext')
     }
     return audioContext.value
   }
@@ -53,9 +59,10 @@ export function useAudioPlayer() {
         throw new Error(`HTTP error! status: ${response.status}`)
       }
       const arrayBuffer = await response.arrayBuffer()
-      const decodedBuffer = await audioContext.value.decodeAudioData(arrayBuffer)
+      const decodedBuffer =
+        await audioContext.value.decodeAudioData(arrayBuffer)
       preloadedBuffers.set(track.id, decodedBuffer)
-      track.duration = decodedBuffer.duration 
+      track.duration = decodedBuffer.duration
       return decodedBuffer
     } catch (error) {
       console.error('Error loading audio:', error)
@@ -86,8 +93,13 @@ export function useAudioPlayer() {
   const preloadRemainingTracks = async () => {
     isPreloading.value = true
     for (const track of tracks.value) {
-      if (track.id !== currentTrack.value?.id && !preloadedBuffers.has(track.id)) {
-        await loadTrack(track).catch(error => console.error(`Error preloading track ${track.id}:`, error))
+      if (
+        track.id !== currentTrack.value?.id &&
+        !preloadedBuffers.has(track.id)
+      ) {
+        await loadTrack(track).catch((error) =>
+          console.error(`Error preloading track ${track.id}:`, error)
+        )
       }
     }
     isPreloading.value = false
@@ -105,19 +117,21 @@ export function useAudioPlayer() {
   }
 
   const playNextTrack = async () => {
-    currentTrackIndex.value = (currentTrackIndex.value + 1) % tracks.value.length
+    currentTrackIndex.value =
+      (currentTrackIndex.value + 1) % tracks.value.length
     await selectTrack(tracks.value[currentTrackIndex.value])
   }
 
   const playPreviousTrack = async () => {
-    currentTrackIndex.value = (currentTrackIndex.value - 1 + tracks.value.length) % tracks.value.length
+    currentTrackIndex.value =
+      (currentTrackIndex.value - 1 + tracks.value.length) % tracks.value.length
     await selectTrack(tracks.value[currentTrackIndex.value])
   }
 
   const play = async (startOffset: number = offset.value): Promise<void> => {
     ensureAudioContext()
     if (!audioContext.value || !currentTrack.value) return
-    
+
     const audioBuffer = preloadedBuffers.get(currentTrack.value.id)
     if (!audioBuffer) return
 
@@ -162,6 +176,7 @@ export function useAudioPlayer() {
   }
 
   const togglePlay = async () => {
+    if (!currentTrack.value) return
     if (!isLoaded.value) {
       await loadTrack(currentTrack.value!)
     }
@@ -179,7 +194,8 @@ export function useAudioPlayer() {
 
   const updateCurrentTime = () => {
     if (isPlaying.value && audioContext.value) {
-      currentTime.value = offset.value + (audioContext.value.currentTime - startTime.value)
+      currentTime.value =
+        offset.value + (audioContext.value.currentTime - startTime.value)
       requestAnimationFrame(updateCurrentTime)
     }
   }
@@ -204,7 +220,10 @@ export function useAudioPlayer() {
   const setVolume = (newVolume: number) => {
     volume.value = newVolume
     if (gainNode.value && audioContext.value) {
-      gainNode.value.gain.setValueAtTime(Number(newVolume), audioContext.value.currentTime)
+      gainNode.value.gain.setValueAtTime(
+        Number(newVolume),
+        audioContext.value.currentTime
+      )
     }
   }
 

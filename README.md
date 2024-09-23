@@ -1,6 +1,6 @@
 # Audio Player
 
-A Vue 3 and TypeScript implementation of a basic Spotify-like audio player using the Web Audio API.
+A Vue 3 and TypeScript implementation of a basic audio player using the Web Audio API.
 
 ## Features
 
@@ -12,6 +12,16 @@ A Vue 3 and TypeScript implementation of a basic Spotify-like audio player using
 - Basic audio visualization
 - Responsive design for desktop and mobile
 - Local audio file playback
+- Keyboard shortcuts
+
+## Keyboard Shortcuts
+
+The following keyboard shortcuts are available:
+
+- Space: play/pause
+- Arrow Right/Arrow Left: next/previous track
+- Arrow Up/Arrow Down: volume up/down
+- Key J/Key L: seek 10 seconds previous/next
 
 ## Technologies Used
 
@@ -70,15 +80,6 @@ A Vue 3 and TypeScript implementation of a basic Spotify-like audio player using
 4. View basic audio visualization while tracks are playing
 5. Use the playlist to skip to the next or previous track
 
-## Browser Compatibility
-
-This player has been tested and is compatible with:
-
-- Google Chrome (latest)
-- Mozilla Firefox (latest)
-- Safari (latest)
-- Microsoft Edge (latest)
-
 ## Known Limitations
 
 - This player currently only supports local audio files
@@ -91,3 +92,4 @@ This project is open source and available under the MIT License.
 
 - Audio tracks used in this project are royalty-free and sourced from Bensound.com.
 - Icons provided by Font-Awesome.
+

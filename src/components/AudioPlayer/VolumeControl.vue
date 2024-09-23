@@ -13,7 +13,7 @@ watch(volume, (newVolume) => {
   }
 })
 
-const getVolumeIcon = (vol: number) => {
+const getVolumeIcon = (vol: number): string => {
   if (vol === 0) return 'volume-xmark'
   if (vol < 0.5) return 'volume-low'
   return 'volume-high'
@@ -26,6 +26,16 @@ const toggleMute = () => {
     setVolume(previousVolume.value)
   }
 }
+
+const openMenu = () => {
+  menuOpen.value = true
+}
+
+const closeMenu = () => {
+  menuOpen.value = false
+}
+
+defineExpose({ openMenu, closeMenu })
 </script>
 
 <template>

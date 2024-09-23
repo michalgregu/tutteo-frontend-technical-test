@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useAudioPlayer } from '../../composables/useAudioPlayer'
+import { useKeyboardControls } from '../../composables/useKeyboardControls'
 
 import PlaybackControls from './PlaybackControls.vue'
 import ProgressBar from './ProgressBar.vue'
@@ -7,6 +9,9 @@ import VolumeControl from './VolumeControl.vue'
 import CurrentTrackInfo from '../CurrentTrackInfo.vue'
 
 const { currentTrack } = useAudioPlayer()
+const volumeControlRef = ref<InstanceType<typeof VolumeControl> | null>(null)
+
+useKeyboardControls(volumeControlRef)
 </script>
 
 <template>
@@ -16,7 +21,7 @@ const { currentTrack } = useAudioPlayer()
     </div>
     <CurrentTrackInfo :track="currentTrack" :class="$style.trackInfo" />
     <ProgressBar :class="$style.progressBar" />
-    <VolumeControl :class="$style.volumeControl" />
+    <VolumeControl :class="$style.volumeControl" ref="volumeControlRef" />
   </div>
 </template>
 
