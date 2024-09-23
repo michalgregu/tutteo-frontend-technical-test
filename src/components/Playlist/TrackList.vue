@@ -1,15 +1,9 @@
 <script setup lang="ts">
 import { Track } from '../../tracks'
 import TrackItem from './TrackItem.vue'
+import { useAudioPlayer } from '../../composables/useAudioPlayer'
 
-defineProps<{
-  tracks: Track[]
-  currentTrack: Track | null
-}>()
-
-const emit = defineEmits<{
-  (e: 'selectTrack', track: Track): void
-}>()
+const { currentTrack, tracks, selectTrack } = useAudioPlayer()
 </script>
 
 <template>
@@ -19,7 +13,7 @@ const emit = defineEmits<{
       :key="track.id"
       :track="track"
       :isActive="currentTrack?.id === track.id"
-      @select="emit('selectTrack', $event)"
+      @select="selectTrack"
     />
   </v-list>
 </template>

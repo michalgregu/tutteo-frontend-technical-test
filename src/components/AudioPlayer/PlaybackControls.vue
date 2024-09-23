@@ -1,33 +1,36 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useAudioPlayer } from '../../composables/useAudioPlayer'
 
-const props = defineProps<{
-  isPlaying: boolean
-}>()
+const { isPlaying, togglePlay, stop, playNextTrack, playPreviousTrack } =
+  useAudioPlayer()
 
-const emit = defineEmits<{
-  (e: 'togglePlay'): void
-  (e: 'stop'): void
-}>()
-
-const playIcon = computed(() => (props.isPlaying ? 'fa-pause' : 'fa-play'))
+const playIcon = computed(() => (isPlaying.value ? 'fa-pause' : 'fa-play'))
 </script>
 
 <template>
   <div :class="$style.controls">
-    <v-btn icon color="primary" flat size="x-small" :ripple="false">
+    <v-btn
+      icon
+      color="primary"
+      flat
+      size="x-small"
+      :ripple="false"
+      @click="playPreviousTrack"
+    >
       <font-awesome-icon icon="backward-step" :class="$style.icon" />
+    </v-btn>
+    <v-btn icon color="primary" flat :ripple="false" @click="togglePlay">
+      <font-awesome-icon :icon="playIcon" :class="$style.icon" />
     </v-btn>
     <v-btn
       icon
       color="primary"
       flat
+      size="x-small"
       :ripple="false"
-      @click="emit('togglePlay')"
+      @click="playNextTrack"
     >
-      <font-awesome-icon :icon="playIcon" :class="$style.icon" />
-    </v-btn>
-    <v-btn icon color="primary" flat size="x-small" :ripple="false">
       <font-awesome-icon icon="forward-step" :class="$style.icon" />
     </v-btn>
     <v-btn
@@ -36,7 +39,7 @@ const playIcon = computed(() => (props.isPlaying ? 'fa-pause' : 'fa-play'))
       color="primary"
       flat
       :ripple="false"
-      @click="emit('stop')"
+      @click="stop"
     >
       <font-awesome-icon icon="stop" :class="$style.icon" />
     </v-btn>

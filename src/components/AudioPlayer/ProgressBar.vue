@@ -1,16 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useAudioPlayer } from '../../composables/useAudioPlayer'
 
-const props = defineProps<{
-  currentTime: number
-  duration: number
-}>()
+const { duration, currentTime, seek } = useAudioPlayer()
 
-const emit = defineEmits<{
-  (e: 'seek', time: number): void
-}>()
-
-const progress = computed(() => (props.currentTime / props.duration) * 100)
+const progress = computed(() => (currentTime.value / duration.value) * 100)
 
 const formatTime = (time: number): string => {
   const minutes = Math.floor(time / 60)
@@ -20,8 +14,8 @@ const formatTime = (time: number): string => {
 
 const handleSeek = (event: Event) => {
   const target = event.target as HTMLInputElement
-  const seekTime = (Number(target.value) / 100) * props.duration
-  emit('seek', seekTime)
+  const seekTime = (Number(target.value) / 100) * duration.value
+  seek(seekTime)
 }
 </script>
 

@@ -10,8 +10,8 @@ const emit = defineEmits<{
   (e: 'select', track: Track): void
 }>()
 
-const padZero = (number: number) => {
-  return number < 10 ? `0${number}` : number
+const padZero = (id: string): string => {
+  return id.length === 1 ? `0${id}` : id
 }
 </script>
 
@@ -66,7 +66,7 @@ const padZero = (number: number) => {
 
   .trackTitle,
   .trackArtist {
-    font-size: .8rem !important;
+    font-size: 0.8rem !important;
   }
 }
 </style>

@@ -1,23 +1,16 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+import { useAudioPlayer } from '../../composables/useAudioPlayer'
 
-const props = defineProps<{
-  initialVolume: number
-}>()
+const { volume, setVolume } = useAudioPlayer()
 
-const emit = defineEmits<{
-  (e: 'volumeChange', volume: number): void
-}>()
-
-const volume = ref(props.initialVolume)
-const previousVolume = ref(props.initialVolume)
-const menuOpen = ref(false)
+const previousVolume = ref<number>(volume.value)
+const menuOpen = ref<boolean>(false)
 
 watch(volume, (newVolume) => {
   if (newVolume > 0) {
     previousVolume.value = newVolume
   }
-  emit('volumeChange', newVolume)
 })
 
 const getVolumeIcon = (vol: number) => {
@@ -28,9 +21,9 @@ const getVolumeIcon = (vol: number) => {
 
 const toggleMute = () => {
   if (volume.value > 0) {
-    volume.value = 0
+    setVolume(0)
   } else {
-    volume.value = previousVolume.value
+    setVolume(previousVolume.value)
   }
 }
 </script>
@@ -66,7 +59,8 @@ const toggleMute = () => {
         elevation="1"
       >
         <v-slider
-          v-model="volume"
+          :model-value="volume"
+          @update:model-value="setVolume"
           direction="vertical"
           min="0"
           max="1"

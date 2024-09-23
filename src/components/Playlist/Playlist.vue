@@ -1,26 +1,12 @@
 <script setup lang="ts">
-import { Track } from '../../tracks'
 import TrackList from './TrackList.vue'
-
-const props = defineProps<{
-  tracks: Track[]
-  currentTrack: Track | null
-}>()
-
-const emit = defineEmits<{
-  (e: 'selectTrack', track: Track): void
-}>()
 </script>
 
 <template>
   <v-card :class="$style.playlist">
     <v-card-title :class="$style.playlistTitle">Playlist</v-card-title>
     <v-card-text :class="$style.playlistContent">
-      <TrackList
-        :tracks="props.tracks"
-        :currentTrack="currentTrack"
-        @selectTrack="emit('selectTrack', $event)"
-      />
+      <TrackList />
     </v-card-text>
   </v-card>
 </template>

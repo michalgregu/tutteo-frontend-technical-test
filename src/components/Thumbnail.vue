@@ -1,29 +1,33 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Track } from '../tracks'
+import { useAudioPlayer } from '../composables/useAudioPlayer'
 
-const props = defineProps<{
-  track: Track | null
-}>()
+const { currentTrack } = useAudioPlayer()
 
 const formattedLicense = computed(() => {
-  return props.track?.license_code ? `License: ${props.track.license_code}` : ''
+  return currentTrack.value?.license_code
+    ? `License: ${currentTrack.value.license_code}`
+    : ''
 })
 const formattedSource = computed(() => {
-  return props.track?.music_source
-    ? `Music Source: ${props.track.music_source}`
+  return currentTrack.value?.music_source
+    ? `Music Source: ${currentTrack.value.music_source}`
     : ''
 })
 </script>
 
 <template>
-  <div v-if="track" :class="$style.thumbnailWrapper">
+  <div v-if="currentTrack" :class="$style.thumbnailWrapper">
     <div :class="$style.thumbnailContainer">
-      <img :src="track.img" :alt="track.title" :class="$style.thumbnail" />
+      <img
+        :src="currentTrack.img"
+        :alt="currentTrack.title"
+        :class="$style.thumbnail"
+      />
     </div>
     <div :class="$style.trackInfo">
-      <h2 :class="$style.trackTitle">{{ track.title }}</h2>
-      <p :class="$style.artistName">{{ track.artist }}</p>
+      <h2 :class="$style.trackTitle">{{ currentTrack.title }}</h2>
+      <p :class="$style.artistName">{{ currentTrack.artist }}</p>
       <div :class="$style.additionalInfo">
         <p>{{ formattedSource }}</p>
         <p>{{ formattedLicense }}</p>

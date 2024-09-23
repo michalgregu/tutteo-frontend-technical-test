@@ -1,25 +1,12 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
 import AudioPlayer from './components/AudioPlayer/AudioPlayer.vue'
 import Playlist from './components/Playlist/Playlist.vue'
 import Thumbnail from './components/Thumbnail.vue'
-import { tracks, Track } from './tracks'
+import { useAudioPlayer } from './composables/useAudioPlayer'
 
-const currentTrackIndex = ref<number>(0)
-const currentTrack = computed(() => tracks[currentTrackIndex.value] || null)
+const { initializeAudio } = useAudioPlayer()
 
-const handleSelectTrack = (track: Track) => {
-  const index = tracks.findIndex((t) => t.id === track.id)
-  if (index !== -1) {
-    currentTrackIndex.value = index
-  }
-}
-
-const playNextTrack = () => {
-  if (currentTrackIndex.value < tracks.length - 1) {
-    currentTrackIndex.value++
-  }
-}
+initializeAudio()
 </script>
 
 <template>
@@ -28,20 +15,16 @@ const playNextTrack = () => {
       <v-container :class="$style.appContainer" fluid>
         <v-row :class="$style.mainContent">
           <v-col cols="12" sm="8" :class="$style.playlistContainer">
-            <Playlist
-              :tracks="tracks"
-              :currentTrack="currentTrack"
-              @selectTrack="handleSelectTrack"
-            />
+            <Playlist />
           </v-col>
           <v-col cols="12" sm="4" :class="$style.thumbnailContainer">
-            <Thumbnail :track="currentTrack" />
+            <Thumbnail />
           </v-col>
         </v-row>
       </v-container>
     </v-main>
     <v-footer app :class="$style.playerContainer">
-      <AudioPlayer :track="currentTrack" @trackEnded="playNextTrack" />
+      <AudioPlayer />
     </v-footer>
   </v-app>
 </template>
@@ -79,7 +62,6 @@ const playNextTrack = () => {
 }
 
 @media (max-width: 600px) {
-  
   .appContainer {
     max-width: 100% !important;
     padding: 0;
