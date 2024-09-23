@@ -1,38 +1,41 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import { useAudioPlayer } from '../composables/useAudioPlayer'
 
 const { currentTrack } = useAudioPlayer()
-
-const formattedLicense = computed(() => {
-  return currentTrack.value?.license_code
-    ? `License: ${currentTrack.value.license_code}`
-    : ''
-})
-const formattedSource = computed(() => {
-  return currentTrack.value?.music_source
-    ? `Music Source: ${currentTrack.value.music_source}`
-    : ''
-})
 </script>
 
 <template>
-  <div v-if="currentTrack" :class="$style.thumbnailWrapper">
+  <div
+    :class="$style.thumbnailWrapper"
+    role="region"
+    aria-label="Current Track Information"
+  >
     <div :class="$style.thumbnailContainer">
       <img
         :src="currentTrack.img"
-        :alt="currentTrack.title"
+        :alt="`Album cover for ${currentTrack.title} by ${currentTrack.artist}`"
         :class="$style.thumbnail"
       />
     </div>
     <div :class="$style.trackInfo">
       <div>
-        <h2 :class="$style.trackTitle">{{ currentTrack.title }}</h2>
-        <p :class="$style.artistName">{{ currentTrack.artist }}</p>
+        <h2 :class="$style.trackTitle" id="track-title">
+          {{ currentTrack.title }}
+        </h2>
+        <p
+          :class="$style.artistName"
+          id="track-artist"
+          aria-describedby="track-title"
+        >
+          {{ currentTrack.artist }}
+        </p>
       </div>
-      <div :class="$style.additionalInfo">
-        <p>{{ formattedSource }}</p>
-        <p>{{ formattedLicense }}</p>
+      <div
+        :class="$style.additionalInfo"
+        aria-label="Track Source and License Information"
+      >
+        <p>{{ `Music Source: ${currentTrack.music_source}` }}</p>
+        <p>{{ `License: ${currentTrack.license_code}` }}</p>
       </div>
     </div>
   </div>

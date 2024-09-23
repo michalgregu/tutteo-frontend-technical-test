@@ -15,8 +15,10 @@ const handleSeek = (event: Event) => {
 </script>
 
 <template>
-  <div :class="$style.progressBar">
-    <span :class="$style.timeDisplay">{{ formatTime(currentTime) }}</span>
+  <div :class="$style.progressBar" role="group" aria-label="Audio Progress">
+    <span :class="$style.timeDisplay" aria-label="Current Time">{{
+      formatTime(currentTime)
+    }}</span>
     <div :class="$style.sliderWrapper">
       <input
         type="range"
@@ -26,9 +28,12 @@ const handleSeek = (event: Event) => {
         step="0.1"
         @input="handleSeek"
         :class="$style.slider"
+        aria-label="Seek Audio"
       />
     </div>
-    <span :class="$style.timeDisplay">{{ formatTime(duration) }}</span>
+    <span :class="$style.timeDisplay" aria-label="Total Duration">{{
+      formatTime(duration)
+    }}</span>
   </div>
 </template>
 

@@ -3,7 +3,7 @@ import TrackList from './TrackList.vue'
 </script>
 
 <template>
-  <v-card :class="$style.playlist">
+  <v-card :class="$style.playlist" aria-label="Music Playlist">
     <v-card-title :class="$style.playlistTitle">Playlist</v-card-title>
     <v-card-text :class="$style.playlistContent">
       <TrackList />

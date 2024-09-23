@@ -21,10 +21,16 @@ const padZero = (id: string): string => {
     :ripple="false"
     :class="['rounded-lg', 'mb-2', { [$style.activeItem]: isActive }]"
     @click="emit('select', track)"
+    :aria-label="`Track ${track.title} by ${track.artist}`"
+    :aria-current="isActive ? 'true' : undefined"
   >
     <template v-slot:prepend>
       <div :class="$style.trackId">{{ padZero(track.id) }}</div>
-      <img :src="track.img" :class="$style.thumbnail" alt="Track thumbnail" />
+      <img
+        :src="track.img"
+        :class="$style.thumbnail"
+        :alt="`Album cover for ${track.title}`"
+      />
     </template>
 
     <template v-slot:append>

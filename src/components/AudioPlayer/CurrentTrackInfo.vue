@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Track } from '../tracks'
+import { Track } from '../../tracks'
 
 defineProps<{
   track: Track
@@ -7,17 +7,33 @@ defineProps<{
 </script>
 
 <template>
-  <div :class="$style.container">
-    <img :src="track.img" :class="$style.thumbnail" alt="Track thumbnail" />
+  <div
+    :class="$style.container"
+    role="group"
+    aria-label="Current Track Information"
+  >
+    <img
+      v-if="track.img"
+      :src="track.img"
+      :class="$style.thumbnail"
+      :alt="`Album cover for ${track.title}`"
+    />
+    <div v-else :class="$style.thumbnailFallback" aria-hidden="true">
+      No Image
+    </div>
     <div :class="$style.trackInfo">
-      <div :class="$style.trackName">{{ track.title }}</div>
-      <div :class="$style.artistName">{{ track.artist }}</div>
+      <div :class="$style.trackName" aria-label="Track Title">
+        {{ track.title }}
+      </div>
+      <div :class="$style.artistName" aria-label="Artist Name">
+        {{ track.artist }}
+      </div>
     </div>
   </div>
 </template>
 
 <style lang="scss" module>
-@import '../styles/_variables.scss';
+@import '../../styles/_variables.scss';
 
 .container {
   display: flex;

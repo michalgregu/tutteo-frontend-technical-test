@@ -9,7 +9,7 @@ const playIcon = computed(() => (isPlaying.value ? 'fa-pause' : 'fa-play'))
 </script>
 
 <template>
-  <div :class="$style.controls">
+  <div :class="$style.controls" role="group" aria-label="Playback Controls">
     <v-btn
       icon
       color="primary"
@@ -17,10 +17,18 @@ const playIcon = computed(() => (isPlaying.value ? 'fa-pause' : 'fa-play'))
       size="x-small"
       :ripple="false"
       @click="playPreviousTrack"
+      aria-label="Previous Track"
     >
       <font-awesome-icon icon="backward-step" :class="$style.icon" />
     </v-btn>
-    <v-btn icon color="primary" flat :ripple="false" @click="togglePlay">
+    <v-btn
+      icon
+      color="primary"
+      flat
+      :ripple="false"
+      @click="togglePlay"
+      :aria-label="isPlaying ? 'Pause' : 'Play'"
+    >
       <font-awesome-icon :icon="playIcon" :class="$style.icon" />
     </v-btn>
     <v-btn
@@ -30,6 +38,7 @@ const playIcon = computed(() => (isPlaying.value ? 'fa-pause' : 'fa-play'))
       size="x-small"
       :ripple="false"
       @click="playNextTrack"
+      aria-label="Next Track"
     >
       <font-awesome-icon icon="forward-step" :class="$style.icon" />
     </v-btn>
@@ -40,6 +49,7 @@ const playIcon = computed(() => (isPlaying.value ? 'fa-pause' : 'fa-play'))
       flat
       :ripple="false"
       @click="stop"
+      aria-label="Stop"
     >
       <font-awesome-icon icon="stop" :class="$style.icon" />
     </v-btn>

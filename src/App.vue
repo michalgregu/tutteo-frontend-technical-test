@@ -10,12 +10,12 @@ initializeAudio()
 </script>
 
 <template>
-  <div :class="$style.appContainer">
+  <div :class="$style.appContainer" role="application" aria-label="Music Player Application">
     <div :class="$style.contentWrapper">
       <Thumbnail :class="$style.thumbnail" />
-      <Playlist :class="$style.playlist" />
+      <Playlist :class="$style.playlist" aria-label="Music Playlist" />
     </div>
-    <AudioPlayer :class="$style.player" />
+    <AudioPlayer :class="$style.player" aria-label="Audio Player Controls" />
   </div>
 </template>
 

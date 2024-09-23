@@ -6,7 +6,7 @@ import { useKeyboardControls } from '../../composables/useKeyboardControls'
 import PlaybackControls from './PlaybackControls.vue'
 import ProgressBar from './ProgressBar.vue'
 import VolumeControl from './VolumeControl.vue'
-import CurrentTrackInfo from '../CurrentTrackInfo.vue'
+import CurrentTrackInfo from './CurrentTrackInfo.vue'
 
 const { currentTrack } = useAudioPlayer()
 const volumeControlRef = ref<InstanceType<typeof VolumeControl> | null>(null)
@@ -15,10 +15,13 @@ useKeyboardControls(volumeControlRef)
 </script>
 
 <template>
-  <div v-if="currentTrack" :class="$style.audioPlayer">
-    <div :class="$style.controls">
-      <PlaybackControls />
-    </div>
+  <div
+    v-if="currentTrack"
+    :class="$style.audioPlayer"
+    role="region"
+    aria-label="Audio Player"
+  >
+    <PlaybackControls :class="$style.controls" />
     <CurrentTrackInfo :track="currentTrack" :class="$style.trackInfo" />
     <ProgressBar :class="$style.progressBar" />
     <VolumeControl :class="$style.volumeControl" ref="volumeControlRef" />

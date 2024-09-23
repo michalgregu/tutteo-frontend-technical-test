@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { useAudioPlayer } from '../../composables/useAudioPlayer'
 
 const { volume, setVolume } = useAudioPlayer()
+
+const volumePercentage = computed(() => Math.round(volume.value * 100))
 
 const previousVolume = ref<number>(volume.value)
 const menuOpen = ref<boolean>(false)
@@ -39,7 +41,7 @@ defineExpose({ openMenu, closeMenu })
 </script>
 
 <template>
-  <div :class="$style.volumeControl">
+  <div :class="$style.volumeControl" role="group" aria-label="Volume Control">
     <v-menu
       v-model="menuOpen"
       :close-on-content-click="false"
@@ -58,6 +60,7 @@ defineExpose({ openMenu, closeMenu })
           v-bind="props"
           :class="$style.volumeButton"
           @click.stop="toggleMute"
+          :aria-label="`Volume ${volumePercentage}%. Click to ${volume > 0 ? 'mute' : 'unmute'}.`"
         >
           <font-awesome-icon :icon="getVolumeIcon(volume)" />
         </v-btn>
@@ -81,6 +84,7 @@ defineExpose({ openMenu, closeMenu })
           hide-details
           :ripple="false"
           :class="$style.volumeSlider"
+          :aria-label="`Adjust volume. Current volume: ${volumePercentage}%`"
         >
         </v-slider>
       </v-sheet>
