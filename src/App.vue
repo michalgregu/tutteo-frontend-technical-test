@@ -10,65 +10,73 @@ initializeAudio()
 </script>
 
 <template>
-  <v-app :class="$style.app">
-    <v-main :class="$style.main">
-      <v-container :class="$style.appContainer" fluid>
-        <v-row :class="$style.mainContent">
-          <v-col cols="12" sm="8" :class="$style.playlistContainer">
-            <Playlist />
-          </v-col>
-          <v-col cols="12" sm="4" :class="$style.thumbnailContainer">
-            <Thumbnail />
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-main>
-    <v-footer app :class="$style.playerContainer">
-      <AudioPlayer />
-    </v-footer>
-  </v-app>
+  <div :class="$style.appContainer">
+    <div :class="$style.contentWrapper">
+      <Thumbnail :class="$style.thumbnail" />
+      <Playlist :class="$style.playlist" />
+    </div>
+    <AudioPlayer :class="$style.player" />
+  </div>
 </template>
 
 <style lang="scss" module>
 @import './styles/variables';
 
-.app {
+.appContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
   background-color: $background-color-dark;
   color: $text-primary;
-  display: flex;
-  flex-direction: column;
+  padding: 20px;
 }
 
-.main {
+.contentWrapper {
   flex: 1;
-  display: flex;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    'thumbnail'
+    'playlist';
+  overflow: hidden;
+  gap: 20px;
 }
 
-.appContainer {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  max-width: 80.5% !important;
-  margin: 0 auto;
-  padding: 16px;
+.thumbnail {
+  grid-area: thumbnail;
 }
 
-.playerContainer {
+.playlist {
+  grid-area: playlist;
+  overflow-y: auto;
+}
+
+.player {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: $background-color-dark !important;
+  margin-top: 20px;
 }
 
-@media (max-width: 600px) {
+@media (min-width: 800px) {
   .appContainer {
-    max-width: 100% !important;
-    padding: 0;
+    align-items: center;
   }
 
-  .thumbnailContainer {
-    order: -1;
+  .contentWrapper {
+    width: 60%;
+    grid-template-columns: 6fr 4fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: 'playlist thumbnail';
+    max-height: calc(100vh - var(--player-height));
+  }
+
+  .thumbnail,
+  .playlist {
+    overflow-y: auto;
+  }
+
+  .player {
+    width: 60%;
+    align-self: center;
   }
 }
 </style>

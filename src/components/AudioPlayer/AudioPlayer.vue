@@ -76,7 +76,7 @@ const { currentTrack } = useAudioPlayer()
   }
 }
 
-@media (max-width: 800px) {
+@media (max-width: 1100px) {
   .trackInfo {
     display: none;
   }

@@ -42,7 +42,9 @@ export function useAudioPlayer() {
     if (!audioContext.value) throw new Error('AudioContext not initialized')
 
     if (preloadedBuffers.has(track.id)) {
-      return preloadedBuffers.get(track.id)!
+      const buffer = preloadedBuffers.get(track.id)!
+      track.duration = buffer.duration
+      return buffer
     }
 
     try {
@@ -53,10 +55,19 @@ export function useAudioPlayer() {
       const arrayBuffer = await response.arrayBuffer()
       const decodedBuffer = await audioContext.value.decodeAudioData(arrayBuffer)
       preloadedBuffers.set(track.id, decodedBuffer)
+      track.duration = decodedBuffer.duration 
       return decodedBuffer
     } catch (error) {
       console.error('Error loading audio:', error)
       throw error
+    }
+  }
+
+  const loadAllTrackDurations = async () => {
+    for (const track of tracks.value) {
+      if (!track.duration) {
+        await loadTrack(track)
+      }
     }
   }
 
@@ -199,6 +210,7 @@ export function useAudioPlayer() {
 
   const initializeAudio = async () => {
     await loadInitialTrack()
+    await loadAllTrackDurations()
     preloadRemainingTracks()
   }
 

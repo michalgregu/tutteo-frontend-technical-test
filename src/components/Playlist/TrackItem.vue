@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Track } from '../../tracks'
+import { formatTime } from '../../utils/timeUtils'
 
 defineProps<{
   track: Track
@@ -26,9 +27,9 @@ const padZero = (id: string): string => {
       <img :src="track.img" :class="$style.thumbnail" alt="Track thumbnail" />
     </template>
 
-    <!-- <template v-slot:append>
-      <div :class="$style.trackId">Time</div>
-    </template> -->
+    <template v-slot:append>
+      <div>{{ formatTime(track.duration) }}</div>
+    </template>
 
     <v-list-item-title :class="$style.trackTitle">{{
       track.title
@@ -59,7 +60,7 @@ const padZero = (id: string): string => {
   margin-right: 1rem;
 }
 
-@media (max-width: 599px) {
+@media (max-width: 1100px) {
   .thumbnail {
     display: none;
   }

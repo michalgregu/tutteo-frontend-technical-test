@@ -26,8 +26,10 @@ const formattedSource = computed(() => {
       />
     </div>
     <div :class="$style.trackInfo">
-      <h2 :class="$style.trackTitle">{{ currentTrack.title }}</h2>
-      <p :class="$style.artistName">{{ currentTrack.artist }}</p>
+      <div>
+        <h2 :class="$style.trackTitle">{{ currentTrack.title }}</h2>
+        <p :class="$style.artistName">{{ currentTrack.artist }}</p>
+      </div>
       <div :class="$style.additionalInfo">
         <p>{{ formattedSource }}</p>
         <p>{{ formattedLicense }}</p>
@@ -45,6 +47,7 @@ const formattedSource = computed(() => {
   background-color: $background-color-light;
   border-radius: 4px;
   padding: 6px;
+  height: fit-content;
 }
 
 .thumbnail {
@@ -65,7 +68,7 @@ const formattedSource = computed(() => {
 }
 
 .trackTitle {
-  font-size: clamp(1rem, 3vw, 1.5rem);
+  font-size: 1.2rem;
   font-weight: bold;
   color: $text-primary;
   word-wrap: break-word;
@@ -73,7 +76,7 @@ const formattedSource = computed(() => {
 }
 
 .artistName {
-  font-size: clamp(0.8rem, 2.5vw, 1.2rem);
+  font-size: 1rem;
   color: $text-secondary;
   margin: 0.5rem 0;
   word-wrap: break-word;
@@ -85,7 +88,7 @@ const formattedSource = computed(() => {
   color: adjust-color($text-secondary, $lightness: 10%);
 }
 
-@media (max-width: 599px) {
+@media (max-width: 800px) {
   .thumbnailWrapper {
     flex-direction: row;
     align-items: center;
@@ -109,6 +112,12 @@ const formattedSource = computed(() => {
 
   .additionalInfo {
     font-size: 0.5rem;
+  }
+}
+
+@media (max-width: 1100px) {
+  .trackInfo {
+    font-size: 0.6rem;
   }
 }
 </style>

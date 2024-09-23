@@ -6,6 +6,7 @@ export interface Track {
   img: string
   music_source: string
   license_code: string
+  duration: number
 }
 
 export const tracks: Track[] = [
@@ -17,6 +18,7 @@ export const tracks: Track[] = [
     img: '/src/assets/img/pic_5.jpg',
     music_source: 'Bensound.com',
     license_code: 'FIR7IQJG0ONJSZHR',
+    duration: 0,
   },
   {
     id: '2',
@@ -26,6 +28,7 @@ export const tracks: Track[] = [
     img: '/src/assets/img/pic_3.jpg',
     music_source: 'Bensound.com',
     license_code: 'B4CIKJB2BUBRXT4E',
+    duration: 0,
   },
   {
     id: '3',
@@ -35,6 +38,7 @@ export const tracks: Track[] = [
     img: '/src/assets/img/pic_1.jpg',
     music_source: 'Bensound.com',
     license_code: 'DTNK0XMEMCCBTQNK',
+    duration: 0,
   },
   {
     id: '4',
@@ -44,6 +48,7 @@ export const tracks: Track[] = [
     img: '/src/assets/img/pic_4.png',
     music_source: 'Bensound.com',
     license_code: 'XQWNS8KRA2QAHMUA',
+    duration: 0,
   },
   {
     id: '5',
@@ -53,5 +58,6 @@ export const tracks: Track[] = [
     img: '/src/assets/img/pic_2.jpg',
     music_source: 'Bensound.com',
     license_code: 'MBDDX6SUQTLZMRLG',
+    duration: 0,
   },
 ]

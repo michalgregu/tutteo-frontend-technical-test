@@ -81,8 +81,17 @@ const toggleMute = () => {
 <style lang="scss" module>
 @import '../../styles/_variables.scss';
 
+.volumeControl {
+  position: relative;
+}
+
 .volumeButton {
   color: $primary-color !important;
+}
+
+.menu {
+  display: flex;
+  justify-content: center;
 }
 
 .volumeSheet {
@@ -91,6 +100,12 @@ const toggleMute = () => {
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
+  width: 40px !important;
+  overflow: hidden !important;
+}
+
+.volumeSlider {
+  width: 100% !important;
 }
 
 :global(.v-slider.v-input--vertical .v-slider-track__fill) {

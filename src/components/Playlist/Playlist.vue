@@ -34,8 +34,11 @@ import TrackList from './TrackList.vue'
 @media (max-width: 599px) {
   .playlistTitle {
     text-align: center;
-
     font-size: 1rem !important;
+  }
+
+  .playlistContent {
+    padding: 0.2rem !important;
   }
 }
 </style>
