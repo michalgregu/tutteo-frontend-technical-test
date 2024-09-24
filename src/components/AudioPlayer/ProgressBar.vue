@@ -5,7 +5,9 @@ import { formatTime } from '../../utils/timeUtils'
 
 const { duration, currentTime, seek } = useAudioPlayer()
 
-const progress = computed(() => (currentTime.value / duration.value) * 100)
+const progress = computed(() =>
+  !duration.value ? 0 : (currentTime.value / duration.value) * 100
+)
 
 const handleSeek = (event: Event) => {
   const target = event.target as HTMLInputElement
