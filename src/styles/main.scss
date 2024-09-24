@@ -8,14 +8,17 @@
 
   color-scheme: light dark;
   color: $text-primary;
-  background-color: $background-color-dark;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
 
-.v-application__wrap {
-  background-color: $background-color-dark;
+  background: rgb(79, 88, 143);
+  background: linear-gradient(
+    344deg,
+    rgba(79, 88, 143, 1) 25%,
+    rgba(45, 46, 55, 1) 45%,
+    rgba(63, 81, 181, 1) 100%
+  );
 }

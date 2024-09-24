@@ -10,7 +10,11 @@ initializeAudio()
 </script>
 
 <template>
-  <div :class="$style.appContainer" role="application" aria-label="Music Player Application">
+  <div
+    :class="$style.appContainer"
+    role="application"
+    aria-label="Music Player Application"
+  >
     <div :class="$style.contentWrapper">
       <Thumbnail :class="$style.thumbnail" />
       <Playlist :class="$style.playlist" aria-label="Music Playlist" />
@@ -26,7 +30,6 @@ initializeAudio()
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: $background-color-dark;
   color: $text-primary;
   padding: 20px;
 }
