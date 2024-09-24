@@ -10,34 +10,38 @@ const { currentTrack } = useAudioPlayer()
     role="region"
     aria-label="Current Track Information"
   >
-    <div :class="$style.thumbnailContainer">
-      <img
-        :src="currentTrack.img"
-        :alt="`Album cover for ${currentTrack.title} by ${currentTrack.artist}`"
-        :class="$style.thumbnail"
-      />
-    </div>
-    <div :class="$style.trackInfo">
-      <div>
-        <h2 :class="$style.trackTitle" id="track-title">
-          {{ currentTrack.title }}
-        </h2>
-        <p
-          :class="$style.artistName"
-          id="track-artist"
-          aria-describedby="track-title"
+    <v-fade-transition mode="out-in" duration="50">
+      <div :class="$style.thumbnailContainer" :key="currentTrack.id">
+        <img
+          :src="currentTrack.img"
+          :alt="`Album cover for ${currentTrack.title} by ${currentTrack.artist}`"
+          :class="$style.thumbnail"
+        />
+      </div>
+    </v-fade-transition>
+    <v-fade-transition mode="out-in" duration="50">
+      <div :class="$style.trackInfo" :key="currentTrack.id">
+        <div>
+          <h2 :class="$style.trackTitle" id="track-title">
+            {{ currentTrack.title }}
+          </h2>
+          <p
+            :class="$style.artistName"
+            id="track-artist"
+            aria-describedby="track-title"
+          >
+            {{ currentTrack.artist }}
+          </p>
+        </div>
+        <div
+          :class="$style.additionalInfo"
+          aria-label="Track Source and License Information"
         >
-          {{ currentTrack.artist }}
-        </p>
+          <p>{{ `Music Source: ${currentTrack.music_source}` }}</p>
+          <p>{{ `License: ${currentTrack.license_code}` }}</p>
+        </div>
       </div>
-      <div
-        :class="$style.additionalInfo"
-        aria-label="Track Source and License Information"
-      >
-        <p>{{ `Music Source: ${currentTrack.music_source}` }}</p>
-        <p>{{ `License: ${currentTrack.license_code}` }}</p>
-      </div>
-    </div>
+    </v-fade-transition>
   </div>
 </template>
 
