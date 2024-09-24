@@ -28,6 +28,7 @@ export function useAudioPlayer() {
       audioContext.value = new (window.AudioContext ||
         (window as any).webkitAudioContext)()
     }
+    // Resume context if it was suspended (e.g., by browser policies)
     if (audioContext.value?.state === 'suspended') {
       audioContext.value.resume()
     }
@@ -47,6 +48,7 @@ export function useAudioPlayer() {
     ensureAudioContext()
     if (!audioContext.value) throw new Error('AudioContext not initialized')
 
+    // Check if the track is already preloaded
     if (preloadedBuffers.has(track.id)) {
       const buffer = preloadedBuffers.get(track.id)!
       track.duration = buffer.duration
@@ -54,6 +56,7 @@ export function useAudioPlayer() {
     }
 
     try {
+      // Fetch and decode audio data
       const response = await fetch(track.audioSrc)
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
@@ -61,6 +64,8 @@ export function useAudioPlayer() {
       const arrayBuffer = await response.arrayBuffer()
       const decodedBuffer =
         await audioContext.value.decodeAudioData(arrayBuffer)
+
+      // Cache the decoded buffer and update track duration
       preloadedBuffers.set(track.id, decodedBuffer)
       track.duration = decodedBuffer.duration
       return decodedBuffer
@@ -132,31 +137,38 @@ export function useAudioPlayer() {
     ensureAudioContext()
     if (!audioContext.value || !currentTrack.value) return
 
+    // Retrieve the preloaded audio buffer for the current track
     const audioBuffer = preloadedBuffers.get(currentTrack.value.id)
     if (!audioBuffer) return
 
+    // Stop and disconnect any existing audio source
     if (audioSource.value) {
       audioSource.value.stop()
       audioSource.value.disconnect()
     }
 
+    // Create a new audio source and set its buffer
     audioSource.value = audioContext.value.createBufferSource()
     audioSource.value.buffer = audioBuffer
 
+    // Create a gain node if it doesn't exist and connect it to the destination
     if (!gainNode.value) {
       gainNode.value = audioContext.value.createGain()
       gainNode.value.connect(audioContext.value.destination)
     }
-
     audioSource.value.connect(gainNode.value)
 
+    // Start playing the audio and update playback state
     audioSource.value.start(0, startOffset)
     startTime.value = audioContext.value.currentTime
     offset.value = startOffset
     isPlaying.value = true
+
+    // Start updating the current time
     updateCurrentTime()
 
     audioSource.value.onended = () => {
+      // Check if we're at the end of the track (with a small buffer for rounding errors)
       if (currentTime.value >= duration.value - 0.1) {
         isPlaying.value = false
         resetState()

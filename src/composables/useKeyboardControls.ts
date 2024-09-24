@@ -18,6 +18,7 @@ export function useKeyboardControls(
 
   let volumeControlTimeout: number | null = null
 
+  // Show volume control menu when volume is changed by keyboard
   const showVolumeControl = () => {
     if (volumeControlRef.value) {
       volumeControlRef.value.openMenu()
