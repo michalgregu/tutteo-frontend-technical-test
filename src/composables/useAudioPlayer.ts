@@ -1,4 +1,4 @@
-import { ref, computed, watch, onMounted } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { tracks as initialTracks, Track } from '../tracks'
 
 const tracks = ref<Track[]>(initialTracks)
@@ -233,10 +233,46 @@ export function useAudioPlayer() {
     preloadRemainingTracks()
   }
 
+  const cleanup = () => {
+    if (isPlaying.value) {
+      pause()
+    }
+
+    if (audioSource.value) {
+      audioSource.value.stop()
+      audioSource.value.disconnect()
+      audioSource.value = null
+    }
+
+    if (gainNode.value) {
+      gainNode.value.disconnect()
+      gainNode.value = null
+    }
+
+    if (audioContext.value) {
+      audioContext.value.close()
+      audioContext.value = null
+    }
+
+    preloadedBuffers.clear()
+
+    duration.value = 0
+    isPlaying.value = false
+    startTime.value = 0
+    currentTime.value = 0
+    offset.value = 0
+    isLoaded.value = false
+    isPreloading.value = false
+  }
+
   onMounted(async () => {
     if (currentTrack.value) {
       await loadTrack(currentTrack.value)
     }
+  })
+
+  onUnmounted(() => {
+    cleanup()
   })
 
   watch(currentTrack, async (newTrack) => {
