@@ -9,7 +9,6 @@ A Vue 3 and TypeScript implementation of a basic audio player using the Web Audi
 - Timeline slider for seeking within tracks
 - Display of current track information (title, artist, thumbnail)
 - Volume control
-- Basic audio visualization
 - Responsive design for desktop and mobile
 - Local audio file playback
 - Keyboard shortcuts
@@ -77,8 +76,7 @@ The following keyboard shortcuts are available:
 1. Click the play button or on a track in the track list to start playback
 2. Use the timeline slider to seek within the current track
 3. Adjust volume using the volume slider
-4. View basic audio visualization while tracks are playing
-5. Use the playlist to skip to the next or previous track
+4. Use the playlist to skip to the next or previous track
 
 ## Known Limitations
 
