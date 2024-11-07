@@ -22,6 +22,7 @@ const playIcon = computed(() => (isPlaying.value ? 'fa-pause' : 'fa-play'))
       <font-awesome-icon icon="backward-step" :class="$style.icon" />
     </v-btn>
     <v-btn
+      data-testid="play-pause"
       icon
       color="primary"
       flat
@@ -29,7 +30,11 @@ const playIcon = computed(() => (isPlaying.value ? 'fa-pause' : 'fa-play'))
       @click="togglePlay"
       :aria-label="isPlaying ? 'Pause' : 'Play'"
     >
-      <font-awesome-icon :icon="playIcon" :class="$style.icon" />
+      <font-awesome-icon
+        :icon="playIcon"
+        :class="$style.icon"
+        :data-testid="isPlaying ? 'pause-icon' : 'play-icon'"
+      />
     </v-btn>
     <v-btn
       icon

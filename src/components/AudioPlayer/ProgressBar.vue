@@ -18,9 +18,12 @@ const handleSeek = (event: Event) => {
 
 <template>
   <div :class="$style.progressBar" role="group" aria-label="Audio Progress">
-    <span :class="$style.timeDisplay" aria-label="Current Time">{{
-      formatTime(currentTime)
-    }}</span>
+    <span
+      :class="$style.timeDisplay"
+      aria-label="Current Time"
+      data-testid="current-time"
+      >{{ formatTime(currentTime) }}</span
+    >
     <div :class="$style.sliderWrapper">
       <input
         type="range"

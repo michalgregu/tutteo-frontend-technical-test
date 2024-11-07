@@ -71,6 +71,35 @@ The following keyboard shortcuts are available:
 
 4. Open your browser and navigate to http://localhost:5173 (or the port specified in your console).
 
+### Running Tests
+
+The project includes end-to-end tests using Playwright. To run the tests:
+
+1. Install Playwright browsers:
+
+   ```
+   npx playwright install
+   ```
+
+2. Run the tests:
+
+   ```
+   npx playwright tests
+   ```
+
+3. To see the test results in UI mode:
+
+   ```
+   npx playwright tests --ui
+   ```
+
+The tests cover:
+
+- Basic player functionality (play/pause/stop)
+- Keyboard controls
+- Responsive design behavior
+- Player layout changes on different viewports
+
 ## Usage
 
 1. Click the play button or on a track in the track list to start playback
@@ -90,4 +119,3 @@ This project is open source and available under the MIT License.
 
 - Audio tracks used in this project are royalty-free and sourced from Bensound.com.
 - Icons provided by Font-Awesome.
-

@@ -24,7 +24,11 @@ useKeyboardControls(volumeControlRef)
     <PlaybackControls :class="$style.controls" />
     <CurrentTrackInfo :track="currentTrack" :class="$style.trackInfo" />
     <ProgressBar :class="$style.progressBar" />
-    <VolumeControl :class="$style.volumeControl" ref="volumeControlRef" />
+    <VolumeControl
+      :class="$style.volumeControl"
+      ref="volumeControlRef"
+      data-testid="volume-control"
+    />
   </div>
 </template>
 
