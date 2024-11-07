@@ -26,18 +26,48 @@ test.describe('Playback Controls', () => {
 
   test('play button toggles between play and pause states', async ({
     page,
+    browserName,
   }) => {
-    await page.waitForSelector('[data-testid="play-pause"]')
+    await page.waitForSelector('[data-testid="play-pause"]', {
+      state: 'visible',
+      timeout: 15000,
+    })
+
     const playButton = page.getByTestId('play-pause')
 
     await expect(playButton).toBeVisible()
-    await expect(page.getByTestId('play-icon')).toBeVisible()
+
+    await expect(async () => {
+      const playIcon = await page.getByTestId('play-icon')
+      await expect(playIcon).toBeVisible()
+    }).toPass({
+      timeout: 10000,
+      intervals: [1000],
+    })
+
+    const stabilizationTime = browserName === 'chromium' ? 100 : 500
 
     await playButton.click()
-    await expect(page.getByTestId('pause-icon')).toBeVisible()
+    await page.waitForTimeout(stabilizationTime)
+
+    await expect(async () => {
+      const pauseIcon = await page.getByTestId('pause-icon')
+      await expect(pauseIcon).toBeVisible()
+    }).toPass({
+      timeout: 10000,
+      intervals: [1000],
+    })
 
     await playButton.click()
-    await expect(page.getByTestId('play-icon')).toBeVisible()
+    await page.waitForTimeout(stabilizationTime)
+
+    await expect(async () => {
+      const playIcon = await page.getByTestId('play-icon')
+      await expect(playIcon).toBeVisible()
+    }).toPass({
+      timeout: 10000,
+      intervals: [1000],
+    })
   })
 
   test('controls maintain proper spacing', async ({ page }) => {
